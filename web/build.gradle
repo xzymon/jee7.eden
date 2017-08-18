@@ -1,0 +1,13 @@
+group 'com.xzymon.jee7'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'war'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':ejb-api')
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

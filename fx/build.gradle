@@ -1,0 +1,47 @@
+group 'com.xzymon.jee7'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven {
+        url 'https://maven.repository.redhat.com/ga/'
+    }
+    mavenCentral()
+}
+
+//dependencyManagement {
+//    imports {
+//        mavenBom "org.jboss.bom:jboss-eap-javaee7:7.0.0.GA"
+//    }
+//}
+
+dependencies {
+    // https://mvnrepository.com/artifact/com.beust/jcommander
+    compile group: 'com.beust', name: 'jcommander', version: '1.72'
+
+    compile group: 'org.jboss.eap', name: 'wildfly-ejb-client-bom', version: '7.0.0.GA-redhat-2'
+
+    compile project(':ejb-api')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+//version.wildfly.maven.plugin=1.0.2.Final
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes(
+                'Manifest-Version': '1.0',
+                'Main-Class': 'com.xzymon.jee7.eden.fx.StartFX'
+        )
+    }
+    baseName = 'EdenFX'
+    appendix = 'algol'
+    version = '0.0.0'
+    classifier = 'alpha'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

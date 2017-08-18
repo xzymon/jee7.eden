@@ -1,0 +1,16 @@
+group 'com.xzymon'
+version '1.0-SNAPSHOT'
+
+//apply plugin: 'java'
+
+task deployEAP7(type:Exec) {
+    workingDir '$JBOSS_HOME'
+
+    //on linux
+    commandLine 'sh bin/jboss-cli.sh --connect --command="deploy $EDEN_PROJECT_HOME_DIR/ear/build/libs/eden-1.0-SNAPSHOT.ear --server-groups=$SERVER_GROUP_NAME"'
+}
+
+task undeployEAP7(type:Exec) {
+    workingDir '$JBOSS_HOME'
+    commandLine 'sh bin/jboss-cli.sh --connect --command="undeploy eden-1.0-SNAPSHOT.ear --server-groups=$SERVER_GROUP_NAME"'
+}

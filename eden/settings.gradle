@@ -1,0 +1,2 @@
+rootProject.name = 'jee7.eden'
+includeFlat('ejb-api','ejb','ear','web')
