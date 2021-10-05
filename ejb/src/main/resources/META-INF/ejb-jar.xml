@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar
+		xmlns="http://java.sun.com/xml/ns/javaee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+		version="3.1">
+	<enterprise-beans>
+		<message-driven>
+			<ejb-name>UniversalMessagingListener</ejb-name>
+			<ejb-class>com.xzymon.jee7.eden.mdb.UniversalMessagingListener</ejb-class>
+			<transaction-type>Bean</transaction-type>
+		</message-driven>
+	</enterprise-beans>
+	<assembly-descriptor>
+		<container-transaction>
+			<method>
+				<ejb-name>UniversalMessagingListener</ejb-name>
+				<method-name>*</method-name>
+			</method>
+			<trans-attribute>Required</trans-attribute>
+		</container-transaction>
+	</assembly-descriptor>
+</ejb-jar>
