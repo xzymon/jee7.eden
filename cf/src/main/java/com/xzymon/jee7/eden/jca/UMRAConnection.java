@@ -1,8 +1,11 @@
 package com.xzymon.jee7.eden.jca;
 
+import org.apache.log4j.Logger;
+
 import javax.jms.*;
 
 public class UMRAConnection implements Connection {
+	//private static final Logger LOGGER = Logger.getLogger(UMRAConnection.class);
 	private final Connection internalConnection;
 
 	public UMRAConnection(Connection internalConnection) {
@@ -11,16 +14,22 @@ public class UMRAConnection implements Connection {
 
 	@Override
 	public Session createSession(boolean transacted, int acknowledgeMode) throws JMSException {
+		System.out.println("createSession with transacted, acknowledgeMode");
+		//LOGGER.info("createSession with transacted, acknowledgeMode");
 		return internalConnection.createSession(transacted, acknowledgeMode);
 	}
 
 	@Override
 	public Session createSession(int sessionMode) throws JMSException {
+		System.out.println("createSession with sessionMode");
+		//LOGGER.info("createSession with sessionMode");
 		return null;
 	}
 
 	@Override
 	public Session createSession() throws JMSException {
+		System.out.println("createSession without parameters");
+		//LOGGER.info("createSession without parameters");
 		return null;
 	}
 
@@ -51,6 +60,8 @@ public class UMRAConnection implements Connection {
 
 	@Override
 	public void start() throws JMSException {
+		System.out.println("Connection.start");
+		//LOGGER.info("Connection.start");
 		internalConnection.start();
 	}
 
@@ -66,6 +77,8 @@ public class UMRAConnection implements Connection {
 
 	@Override
 	public ConnectionConsumer createConnectionConsumer(Destination destination, String messageSelector, ServerSessionPool sessionPool, int maxMessages) throws JMSException {
+		System.out.println("Creating connection consumer");
+		//LOGGER.info("Creating connection consumer");
 		return internalConnection.createConnectionConsumer(destination, messageSelector, sessionPool, maxMessages);
 	}
 

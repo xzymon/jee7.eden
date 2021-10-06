@@ -1,19 +1,26 @@
 package com.xzymon.jee7.eden.jca;
 
+import org.apache.log4j.Logger;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSContext;
 import javax.jms.JMSException;
 
-public class UMRAConnectionFactory implements ConnectionFactory {
+public class UMRAConnectionFactory extends com.sun.genericra.outbound.ManagedJMSConnectionFactory {
+	//private static final Logger LOGGER = Logger.getLogger(UMRAConnectionFactory.class);
+
 	private final ConnectionFactory internalConnectionFactory;
 	private Connection internalCachedConnection;
 
 	private volatile Object padlock = new Object();
 
 	public UMRAConnectionFactory(ConnectionFactory internalConnectionFactory) {
-		if (null == internalConnectionFactory)
+		if (null == internalConnectionFactory) {
+			System.out.println("Passed ConnectionFactory is null!");
+			//LOGGER.error("Passed ConnectionFactory is null!");
 			throw new IllegalArgumentException("ConnectionFactory cannot be null");
+		}
 
 		this.internalConnectionFactory = internalConnectionFactory;
 	}
@@ -26,10 +33,15 @@ public class UMRAConnectionFactory implements ConnectionFactory {
 		if (null == internalCachedConnection) {
 			synchronized (padlock) {
 				if (null == internalCachedConnection) {
-					if (null != userName || null != password)
+					if (null != userName || null != password) {
+						System.out.println("Creating connection with credentials");
+						//LOGGER.info("Creating connection with credentials");
 						internalCachedConnection = internalConnectionFactory.createConnection(userName, password);
-					else
+					} else {
+						System.out.println("At least one of [userName, password] is null. Will continue without using credentials");
+						//LOGGER.error("At least one of [userName, password] is null. Will continue without using credentials");
 						internalCachedConnection = internalConnectionFactory.createConnection();
+					}
 				}
 			}
 		}
